@@ -42,4 +42,31 @@ router.get('/:id', async (req, res)=>{
   }
 })
 
+router.put('/:id', verifyToken, async(req, res)=>{
+  try{
+    const {name, description, price, img, category, isSold} = req.body
+    if (!name || !description || !price || !category) return res.status(400).json({msg: "All * fields are required!"})
+
+    const updatedItem= await Item.findByIdAndUpdate(req.params.id, {name, description, price, img, category, isSold}, {new: true, runValidators: true} )
+    if (!updatedItem) return res.status(404).json({msg: 'Item not found'})
+
+    return res.status(200).json({msg: `${name}(${req.params.id}) updated successfully!!`})
+  }
+  catch(err){
+    console.error(err);
+    res.status(500).json({ msg: "Server error! Try again !!" });
+  }
+})
+
+router.delete('/:id', verifyToken, async(req, res)=>{
+  try {
+    await Item.findByIdAndDelete(req.params.id)
+    return res.status(200).json({msg: `Item ${req.params.id} deleted successfully`})
+  } 
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ msg: "Server error! Try again !!" });
+  }
+})
+
 module.exports= router
