@@ -11,8 +11,8 @@ router.put('/add', verifyToken, async (req, res)=>{
     let cart= await Cart.findOne({user: req.user._id})
     if (!cart) cart= new Cart({user: req.user._id, items: [{item: itemId}]})
     else {
-      const alreadyInCart= cart.items.some(i => i.item.toString === itemId)
-      if (!alreadyInCart) return res.status(400).json({msg: 'Item already exixts in cart'})
+      const alreadyInCart= cart.items.some(i => i.item.toString() === itemId)
+      if (alreadyInCart) return res.status(400).json({msg: 'Item already exists in cart'})
       cart.items.push({item: itemId})
     }
 
@@ -27,7 +27,7 @@ router.put('/add', verifyToken, async (req, res)=>{
 
 router.get('/', verifyToken, async (req, res)=>{
   try {
-    const cart= await Cart.findOne({user: req.user._id}.populate('items.item'))
+    const cart= await Cart.findOne({user: req.user._id}).populate('items.item')
     if (!cart) return res.status(404).json({msg: 'Cart is Empty :('})
     return res.status(200).json(cart)
   } 
@@ -43,7 +43,7 @@ router.delete('/delete/:itemId', verifyToken, async (req, res)=>{
     const cart= await Cart.findOne({user: req.user._id})
     if (!cart) return res.status(404).json({ msg: "cart not found " });
 
-    cart.items= cart.items.filter(i=> i.item.toString !== itemId)
+    cart.items= cart.items.filter(i=> i.item.toString() !== itemId)
     await cart.save()
     return res.status(200).json({msg: `Item ${req.params.itemId} removed successfully from cart`, cart})
   }

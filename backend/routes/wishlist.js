@@ -37,7 +37,7 @@ router.post('/', verifyToken, async (req, res)=>{
   }
 })
 
-router.delete('/:id', verifyToken, async (req, res)=>{
+router.delete('/:itemId', verifyToken, async (req, res)=>{
   try {
     const user= await User.findById(req.user._id)
     if (!user) return res.status(404).json({msg: 'User not found'})
@@ -45,7 +45,7 @@ router.delete('/:id', verifyToken, async (req, res)=>{
     user.wishlist= user.wishlist.filter(i=> i.toString() !== req.params.itemId)
     await user.save()
 
-    res.status(200).json({msg: `Item ${req.params.id} removed from wishlist`, wishlist: user.wishlist})
+    res.status(200).json({msg: `Item ${req.params.itemId} removed from wishlist`, wishlist: user.wishlist})
   } 
   catch (err) {
     console.error(err);
