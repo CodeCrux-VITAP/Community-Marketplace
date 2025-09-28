@@ -7,6 +7,7 @@ const {connectDB}= require('./utils/db')
 const authRoutes= require('./routes/auth')
 const itemRoutes= require('./routes/item')
 const cartRoutes= require('./routes/cart')
+const wishlistRoutes= require('./routes/wishlist')
 
 const app= express()
 
@@ -25,6 +26,7 @@ app.use(cookieParser())
 app.use('/api/auth', authRoutes)
 app.use('/api/items', itemRoutes)
 app.use('/api/cart', cartRoutes)
+app.use('/api/wishlist', wishlistRoutes)
 
 const port= process.env.PORT || 5050;
 
