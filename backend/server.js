@@ -10,6 +10,7 @@ const itemRoutes= require('./routes/item')
 const cartRoutes= require('./routes/cart')
 const wishlistRoutes= require('./routes/wishlist')
 const chatRoutes= require('./routes/chat')
+const commentRoutes= require('./routes/comment')
 
 const app= express()
 
@@ -30,9 +31,10 @@ app.use('/api/items', itemRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/wishlist', wishlistRoutes)
 app.use('/api/chat', chatRoutes)
+app.use('/api/comment', commentRoutes)
 
 const server= http.createServer(app)
-const io= require('./utils/webSocket')(server)
+require('./utils/webSocket')(server)
 
 const port= process.env.PORT || 5050;
 
