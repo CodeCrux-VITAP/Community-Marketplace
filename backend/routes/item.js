@@ -60,7 +60,11 @@ router.put('/:id', verifyToken, async(req, res)=>{
 
 router.delete('/:id', verifyToken, async(req, res)=>{
   try {
-    await Item.findByIdAndDelete(req.params.id)
+    const item= await Item.findById(req.params.id)
+    if (!item) return res.status(404).json({msg: 'Item not found'})
+
+    if (req.user.role !== 'admin' && req.user._id.toString() !== item.seller.toString()) return res.status(403).json({msg: 'Access Denied !!'})
+    await item.deleteOne()
     return res.status(200).json({msg: `Item ${req.params.id} deleted successfully`})
   } 
   catch (err) {
