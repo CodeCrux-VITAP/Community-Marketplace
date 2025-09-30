@@ -14,3 +14,4 @@ dist/
 coverage/
 
 notes.txt
+util/testSocket.js
