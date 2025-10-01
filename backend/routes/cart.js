@@ -3,7 +3,7 @@ const router= require('express').Router()
 const { verifyToken }= require('../middlewares/authMiddleware')
 const Cart= require('../models/cart')
 
-router.put('/add', verifyToken, async (req, res)=>{
+router.put('/', verifyToken, async (req, res)=>{
   try {
     const {itemId} = req.body
     if (!itemId) return res.status(404).json({ msg: "Item not found " });
@@ -37,7 +37,7 @@ router.get('/', verifyToken, async (req, res)=>{
   }
 })
 
-router.delete('/delete/:itemId', verifyToken, async (req, res)=>{
+router.delete('/:itemId', verifyToken, async (req, res)=>{
   try{
     const {itemId}= req.params
     const cart= await Cart.findOne({user: req.user._id})
