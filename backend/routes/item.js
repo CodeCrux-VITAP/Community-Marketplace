@@ -26,7 +26,27 @@ router.post('/', verifyToken, upload.array('images', 5), async(req, res)=>{
 
 router.get('/', async (req, res)=>{
   try {
-    const items= await Item.find().populate("seller", "username email");
+    const {category, minPrice, maxPrice, search, sort, order}= req.query;
+    let query= {}
+
+    if (category) query.category= category;
+    if (minPrice || maxPrice){
+      query.price= {};
+      if (minPrice) query.price.$gte= Number(minPrice);
+      if (maxPrice) query.price.$lte= Number(maxPrice);
+    }
+    if (search){
+      query.$or= [
+        {name: {$regex: search, $options: 'i'}},
+        {description: {$regex: search, $options: 'i'}}
+      ]
+    }
+    const sortField= sort || 'createdAt';
+    const sortOrder= order === 'asc' ? 1:-1;
+
+    const items= await Item.find(query)
+      .populate("seller", "username email")
+      .sort({[sortField]: sortOrder})
     return res.status(200).json(items)
   } 
   catch (err) {
