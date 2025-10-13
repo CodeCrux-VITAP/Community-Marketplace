@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar"
 import { Route, Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import Login from "./pages/Login"
-import Register from "./pages/Register"
+import Signup from "./pages/Signup"
 import ItemDetails from "./pages/ItemDetails"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Dashboard from "./pages/Dashboard"
@@ -26,7 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/items/:id" element={<ItemDetails />} />
           <Route path="/dashboard" element={<ProtectedRoute> <Dashboard /> </ProtectedRoute> }  />
           <Route path="/sell" element={<ProtectedRoute> <SellItem /> </ProtectedRoute>} />
