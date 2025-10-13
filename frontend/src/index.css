@@ -4,3 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.theme-dark body {
+  @apply bg-gray-900 text-white;
+}
+
+.theme-dark .navbar {
+  @apply bg-gray-800 text-white;
+}
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
