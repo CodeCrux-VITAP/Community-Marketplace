@@ -21,7 +21,7 @@ module.exports.signupAuth= async(req, res)=>{
     const payload= {id: newUser._id}
     const token= jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1d'})
 
-    return res.status(201).json({msg: 'User Created Successfully !!', token})
+    return res.status(201).json({msg: 'User Created Successfully !!', token, user: {id: newUser._id, username: newUser.username, email: newUser.email}})
   }
   catch(err){
     console.error(err)

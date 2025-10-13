@@ -1,7 +1,7 @@
 import React from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import axios from 'axios'
 
@@ -9,7 +9,7 @@ const Login = () => {
   const {login}= useContext(AuthContext)
   const navigate= useNavigate()
 
-  const [formData, setFormData]= useState({email: '', password:''})
+  const [formData, setFormData]= useState({emailOrUsername: '', password:''})
   const [error, setError]= useState('')
 
   const handleChange= e=> setFormData({...formData, [e.target.name]: e.target.value})
@@ -29,13 +29,14 @@ const Login = () => {
 
   return (
     <div className='max-w-md mx-auto mt-10 p-6 border rounded'>
-      <h1 className='text-2xl mb-4'>Login</h1>
+      <h1 className='text-2xl text-center mb-4'>Login</h1>
       {error && <p className='text-red-500'>{error}</p>}
       <form onSubmit={handleSubmit} className='space-y-4'>
-        <input name='email' placeholder='Email' value={formData.email} className='w-full p-2 border rounded' onChange={handleChange} type="text" />
+        <input name='emailOrUsername' placeholder='Email Or Username' value={formData.emailOrUsername} className='w-full p-2 border rounded' onChange={handleChange} type="text" />
         <input type="password" placeholder='Password' name='password' value={formData.password} onChange={handleChange} className='w-full p-2 border rounded' />
         <button type='submit' className='w-full p-2 bg-green-600 text-white rounded'>Login</button>
       </form>
+      <p className='text-center mt-5'>New User? <Link to={signup}> Sign Up</Link></p>
     </div>
   )
 }
